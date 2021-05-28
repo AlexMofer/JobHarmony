@@ -1,0 +1,69 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+final Properties pp = new Properties()
+pp.load(project.file("/pom.properties").newDataInputStream())
+
+final Properties vp = new Properties()
+vp.load(project.file("/version.properties").newDataInputStream())
+
+final Properties sp = new Properties()
+sp.load(project.file("../secret.properties").newDataInputStream())
+
+afterEvaluate { project ->
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release  //指定发布的har包类型为debug或release
+                groupId = pp.getProperty("POM_GROUP_ID")
+                artifactId = pp.getProperty("POM_ARTIFACT_ID")
+                version = vp.getProperty("VERSION_NAME")
+                pom {
+                    name = pp.getProperty("POM_NAME")
+                    packaging = pp.getProperty("POM_PACKAGING")
+                    description = pp.getProperty("POM_DESCRIPTION")
+                    url = pp.getProperty("POM_URL")
+                    licenses {
+                        license {
+                            name = pp.getProperty("POM_LICENCE_NAME")
+                            url = pp.getProperty("POM_LICENCE_URL")
+                            distribution = pp.getProperty("POM_LICENCE_DIST")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = pp.getProperty("POM_DEVELOPER_ID")
+                            name = pp.getProperty("POM_DEVELOPER_NAME")
+                            email = pp.getProperty("POM_DEVELOPER_EMAIL")
+                        }
+                    }
+                    scm {
+                        connection = pp.getProperty("POM_SCM_CONNECTION")
+                        developerConnection = pp.getProperty("POM_SCM_DEV_CONNECTION")
+                        url = pp.getProperty("POM_SCM_URL")
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url = vp.getProperty("VERSION_NAME").contains("SNAPSHOT") ?
+                        pp.getProperty("SNAPSHOT_REPOSITORY_URL",
+                                "https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                        :
+                        pp.getProperty("RELEASE_REPOSITORY_URL",
+                                "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+
+                credentials(PasswordCredentials) {
+                    username = sp.getProperty("NEXUS_USERNAME")
+                    password = sp.getProperty("NEXUS_PASSWORD")
+                }
+            }
+        }
+    }
+
+    signing {
+        useGpgCmd()
+        sign publishing.publications
+    }
+}

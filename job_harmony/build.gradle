@@ -1,0 +1,13 @@
+apply plugin: 'com.huawei.ohos.library'
+ohos {
+    compileSdkVersion 5
+    defaultConfig {
+        compatibleSdkVersion 5
+    }
+}
+
+dependencies {
+    api 'io.github.alexmofer.job:job-core:2.0.1'
+}
+
+//apply from: "maven-central-har.gradle"

@@ -1,9 +1,9 @@
 {
   "app": {
-    "bundleName": "com.am.project.z",
+    "bundleName": "com.am.job.ui",
     "vendor": "am",
     "version": {
-      "code": 1000000,
+      "code": 1,
       "name": "1.0.0"
     },
     "apiVersion": {
@@ -17,12 +17,20 @@
   "module": {
     "package": "com.am.job",
     "deviceType": [
-      "phone"
+      "default",
+      "liteWearable",
+      "tv",
+      "wearable",
+      "smartVision",
+      "phone",
+      "tablet",
+      "car"
     ],
     "distro": {
       "deliveryWithInstall": true,
       "moduleName": "job_harmony",
-      "moduleType": "har"
+      "moduleType": "har",
+      "installationFree": true
     }
   }
 }
