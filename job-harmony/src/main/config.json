@@ -1,0 +1,28 @@
+{
+  "app": {
+    "bundleName": "com.am.project.z",
+    "vendor": "am",
+    "version": {
+      "code": 1000000,
+      "name": "1.0.0"
+    },
+    "apiVersion": {
+      "compatible": 5,
+      "target": 5,
+      "releaseType": "Release"
+    }
+  },
+  "deviceConfig": {
+  },
+  "module": {
+    "package": "com.am.job",
+    "deviceType": [
+      "phone"
+    ],
+    "distro": {
+      "deliveryWithInstall": true,
+      "moduleName": "job_harmony",
+      "moduleType": "har"
+    }
+  }
+}
